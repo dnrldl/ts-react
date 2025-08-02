@@ -1,0 +1,16 @@
+@import "styles/variables";
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.author {
+  text-align: right;
+  color: $color-detail-text;
+}
+
+.contentWrapper {
+  margin-bottom: 44px;
+}

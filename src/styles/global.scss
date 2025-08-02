@@ -1,0 +1,13 @@
+/* styles/global.scss */
+@import "./reset";
+@import "./variables";
+@import "./mixins";
+@import "./typography";
+@import "./theme";
+
+.mb-header {
+  margin-bottom: 44px;
+}
+.mb-header-22 {
+  margin-bottom: 22px;
+}

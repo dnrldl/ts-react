@@ -1,0 +1,30 @@
+@import "styles/variables";
+
+.scrollTopButton {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 48px;
+  height: 48px;
+  background-color: $color-primary;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border: none;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: $color-button-hover;
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+    color: white;
+  }
+}
