@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Container from "components/Container";
 import styles from "./PostAddPage.module.scss";
-import Button from "components/ui/Button";
+import Button from "components/ui/Button/Button";
 import axiosInstance from "api/axiosInstance";
 
 const PostAddPage = () => {

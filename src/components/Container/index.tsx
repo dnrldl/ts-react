@@ -1,4 +1,4 @@
-import ScrollToTopButton from "components/ui/ScrollToTopButton";
+import ScrollToTopButton from "components/ui/Button/ScrollToTopButton";
 import styles from "./Container.module.scss";
 import { ReactNode } from "react";
 

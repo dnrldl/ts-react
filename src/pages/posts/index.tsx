@@ -3,7 +3,7 @@ import styles from "./PostPage.module.scss";
 import Container from "components/Container";
 import Loading from "components/Loading";
 import PostList from "components/Post/PostList";
-import Button from "components/ui/Button";
+import Button from "components/ui/Button/Button";
 import { useFetch } from "hooks/useFetch";
 import { useEffect, useState } from "react";
 import { Post } from "types/type";
