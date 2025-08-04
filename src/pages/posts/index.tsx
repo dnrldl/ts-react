@@ -4,25 +4,30 @@ import Container from "components/Container";
 import Loading from "components/Loading";
 import PostList from "components/Post/PostList";
 import Button from "components/ui/Button/Button";
-import { useFetch } from "hooks/useFetch";
 import { useEffect, useState } from "react";
 import { Post } from "types/type";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { getPostPage } from "api/posts";
 
 const PostPage = () => {
   const [posts, setPosts] = useState<Post[]>([]);
-  const { data, loading, error } = useFetch<Post[]>("/posts");
+  // const { data, loading, error } = useFetch<Page<Post>>("/posts");
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["posts"],
+    queryFn: () => getPostPage(0, 10),
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (data) setPosts(data);
+    if (data) setPosts(data.data.content);
   }, [setPosts, data]);
 
   const handleClickAdd = () => {
     navigate("/posts/add");
   };
 
-  if (loading) return <Loading />;
+  if (isLoading) return <Loading />;
   if (!data) return null;
   if (error) return <div>에러 발생: {error.message}</div>;
 

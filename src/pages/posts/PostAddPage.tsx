@@ -1,31 +1,39 @@
-// src/pages/posts/add/index.tsx
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Container from "components/Container";
-import styles from "./PostAddPage.module.scss";
 import Button from "components/ui/Button/Button";
-import axiosInstance from "api/axiosInstance";
+import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import styles from "./PostAddPage.module.scss";
+import { useMutation } from "@tanstack/react-query";
+import { createPost } from "api/posts";
 
 const PostAddPage = () => {
-  const [title, setTitle] = useState<string>("");
-  const [body, setBody] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
+  const [content, setContent] = useState<string>("");
+
+  const contentRef = useRef<HTMLTextAreaElement>(null);
   const navigate = useNavigate();
+
+  const mutation = useMutation({
+    mutationFn: createPost,
+    onSuccess: () => {
+      toast.success("Success!");
+      navigate("/posts");
+    },
+    onError: () => {
+      toast.error("Error!");
+    },
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    try {
-      setLoading(true);
-      const res = await axiosInstance.post("/posts", { title, body });
-      console.log(res.data);
-      navigate("/posts");
-    } catch (err) {
-      console.error(err);
-      alert("게시글 작성 실패");
-    } finally {
-      setLoading(false);
+    if (!content.trim()) {
+      toast.warning("Please insert content");
+      contentRef.current?.focus();
+      return;
     }
+
+    mutation.mutate({ content });
   };
 
   return (
@@ -33,27 +41,17 @@ const PostAddPage = () => {
       <h1>New Post</h1>
       <form onSubmit={handleSubmit} className={styles.form}>
         <label className={styles.label}>
-          Title
-          <input
-            className={styles.input}
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-        </label>
-
-        <label className={styles.label}>
           Content
           <textarea
+            ref={contentRef}
             className={styles.textarea}
-            value={body}
-            onChange={(e) => setBody(e.target.value)}
-            required
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
           />
         </label>
 
         <Button type="submit" style={{ alignSelf: "flex-end" }}>
-          {loading ? "Submit..." : "Submit"}
+          {mutation.isPending ? "Submit..." : "Submit"}
         </Button>
       </form>
     </Container>

@@ -6,6 +6,8 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import { formatDistanceToNow } from "date-fns";
+import { ko } from "date-fns/locale";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -70,3 +72,9 @@ export const parseDate = (dateStr: string, format: string): dayjs.Dayjs =>
 /** YYYY-MM-DD 만 추출 */
 export const getDateOnly = (date: string | Date): string =>
   dayjs(date).tz(DEFAULT_TZ).format("YYYY-MM-DD");
+
+export const getAgoTime = (date: string) =>
+  formatDistanceToNow(new Date(date), {
+    addSuffix: true,
+    locale: ko,
+  });

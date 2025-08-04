@@ -5,17 +5,30 @@ export interface Todo {
   completed: boolean;
 }
 
+// export interface Post {
+//   userId: number;
+//   id: number;
+//   title: string;
+//   body: string;
+// }
+
 export interface Post {
-  userId: number;
   id: number;
-  title: string;
-  body: string;
+  content: string;
+  authorNickname: string;
+  commentCount: number;
+  likeCount: number;
+  shareCount: number;
+  isLiked: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface Comment {
-  postId: number;
   id: number;
-  name: string;
-  email: string;
-  body: string;
+  content: string;
+  authorNickname: string;
+  likeCount: number;
+  createdAt: Date;
+  updatedAt: Date;
 }

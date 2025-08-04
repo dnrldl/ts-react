@@ -7,6 +7,11 @@ import PostPage from "pages/posts";
 import PostDetailPage from "pages/posts/PostDetailPage";
 import PostAddPage from "pages/posts/PostAddPage";
 import { Route, Routes } from "react-router-dom";
+import LoginPage from "pages/login";
+import RequireAuth from "components/auth/RequireAuth";
+import { Toaster } from "sonner";
+import { AlreadyAuth } from "components/auth/AlreadyAuth";
+import RegisterPage from "pages/register";
 
 const App = () => {
   useApplyTheme();
@@ -18,9 +23,33 @@ const App = () => {
         <Route element={<HeaderLayout />}>
           <Route path="/" element={<HomePage />} />
 
+          <Route
+            path="/login"
+            element={
+              <AlreadyAuth>
+                <LoginPage />
+              </AlreadyAuth>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <AlreadyAuth>
+                <RegisterPage />
+              </AlreadyAuth>
+            }
+          />
+
           <Route path="/posts" element={<PostPage />} />
           <Route path="/posts/:id" element={<PostDetailPage />} />
-          <Route path="/posts/add" element={<PostAddPage />} />
+          <Route
+            path="/posts/add"
+            element={
+              <RequireAuth>
+                <PostAddPage />
+              </RequireAuth>
+            }
+          />
         </Route>
 
         {/* 헤더 안보이는 레이아웃 */}
@@ -28,6 +57,7 @@ const App = () => {
 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
+      <Toaster position="top-center" richColors />
     </>
   );
 };

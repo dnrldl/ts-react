@@ -1,8 +1,8 @@
+import { useQuery } from "@tanstack/react-query";
+import { getComments } from "api/comments";
 import CommentItem from "components/Comment/CommentItem";
 import LoadingSkeleton from "components/Loading/LoadingSkeleton";
-import { useFetch } from "hooks/useFetch";
 import { useEffect } from "react";
-import { Comment } from "types/type";
 
 interface CommentListProps {
   postId: number;
@@ -10,23 +10,24 @@ interface CommentListProps {
 }
 
 const CommentList = ({ postId, setCommentCount }: CommentListProps) => {
-  const { data, loading, error } = useFetch<Comment[]>(
-    `/posts/${postId}/comments`
-  );
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["comments", postId],
+    queryFn: () => getComments(String(postId)),
+  });
 
   useEffect(() => {
     if (data) {
-      setCommentCount(data.length);
+      setCommentCount(data.data.length);
     }
   }, [data, setCommentCount]);
 
-  if (loading) return <LoadingSkeleton />;
+  if (isLoading) return <LoadingSkeleton />;
   if (!data) return null;
   if (error) return <div>에러 발생: {error.message}</div>;
 
   return (
     <div>
-      {data.map((item) => {
+      {data.data.map((item) => {
         return <CommentItem key={item.id} comment={item} />;
       })}
     </div>

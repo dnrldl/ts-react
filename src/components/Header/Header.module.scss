@@ -22,7 +22,11 @@
   gap: 24px;
   align-items: center;
   justify-content: space-between;
-  padding: 1.2rem;
+}
+
+.authSection {
+  display: flex;
+  gap: 24px;
 }
 
 .link {

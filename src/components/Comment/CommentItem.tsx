@@ -8,9 +8,8 @@ interface CommentItemProps {
 const CommentItem = ({ comment }: CommentItemProps) => {
   return (
     <div className={styles.container}>
-      <div className={styles.email}>{comment.email}</div>
-      <div className={styles.email}>{comment.name}</div>
-      <p className="body">- {comment.body}</p>
+      <div className={styles.email}>{comment.authorNickname}</div>
+      <p className="body">- {comment.content}</p>
     </div>
   );
 };
