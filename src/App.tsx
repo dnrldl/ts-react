@@ -12,6 +12,7 @@ import RequireAuth from "components/auth/RequireAuth";
 import { Toaster } from "sonner";
 import { AlreadyAuth } from "components/auth/AlreadyAuth";
 import RegisterPage from "pages/register";
+import MyPage from "pages/mypage";
 
 const App = () => {
   useApplyTheme();
@@ -47,6 +48,15 @@ const App = () => {
             element={
               <RequireAuth>
                 <PostAddPage />
+              </RequireAuth>
+            }
+          />
+
+          <Route
+            path="/mypage"
+            element={
+              <RequireAuth>
+                <MyPage />
               </RequireAuth>
             }
           />

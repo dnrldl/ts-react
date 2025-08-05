@@ -24,11 +24,11 @@ const PostAddPage = () => {
     },
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!content.trim()) {
-      toast.warning("Please insert content");
+      toast.info("Please insert content!");
       contentRef.current?.focus();
       return;
     }

@@ -5,6 +5,7 @@ import { useLoginForm } from "hooks/useLoginForm";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useAuthStore } from "store/useAuthStore";
+import styles from "./LoginForm.module.scss";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -14,8 +15,8 @@ const LoginForm = () => {
     mutationFn: login,
     onSuccess: (res) => {
       const { accessToken } = res.data;
-      setAccessToken(accessToken); // zustand
-      localStorage.setItem("accessToken", accessToken); // localstorage
+      setAccessToken(accessToken);
+      localStorage.setItem("accessToken", accessToken);
 
       toast.success("Login Success!");
       navigate("/");
@@ -32,27 +33,38 @@ const LoginForm = () => {
   );
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        name="email"
-        value={values.email}
-        onChange={handleChange}
-        ref={refs.email}
-        placeholder="email"
-      />
-      {errors.email && <div className="error">{errors.email}</div>}
+    <form onSubmit={handleSubmit} className={styles.form}>
+      <div className={styles.field}>
+        <input
+          name="email"
+          value={values.email}
+          onChange={handleChange}
+          ref={refs.email}
+          placeholder="email"
+          type="email"
+          className={styles.input}
+        />
+        {errors.email && <div className={styles.error}>{errors.email}</div>}
+      </div>
 
-      <input
-        name="password"
-        value={values.password}
-        onChange={handleChange}
-        ref={refs.password}
-        placeholder="password"
-        type="password"
-      />
-      {errors.password && <div className="error">{errors.password}</div>}
+      <div className={styles.field}>
+        <input
+          name="password"
+          value={values.password}
+          onChange={handleChange}
+          ref={refs.password}
+          placeholder="password"
+          type="password"
+          className={styles.input}
+        />
+        {errors.password && (
+          <div className={styles.error}>{errors.password}</div>
+        )}
+      </div>
 
-      <Button type="submit">{isPending ? "..." : "Login"}</Button>
+      <Button type="submit" disabled={isPending}>
+        {isPending ? "Login..." : "Login"}
+      </Button>
     </form>
   );
 };

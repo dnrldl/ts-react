@@ -5,6 +5,7 @@ type LoginResponse = {
   accessToken: string;
   refreshToken: string;
 };
+type RefreshResponse = Omit<LoginResponse, "refreshToken">;
 
 export const login = (form: { email: string; password: string }) =>
   http.post<LoginResponse>("/auth/login", form);
@@ -13,6 +14,10 @@ export const register = (form: RegisterRequest) =>
   http.post<string>("/users/register", form);
 
 export const refresh = () =>
-  http.post<Omit<LoginResponse, "refreshToken">>("/auth/reissue", null, {
-    withCredentials: true,
-  });
+  http.post<RefreshResponse>(
+    "/auth/reissue",
+    {},
+    {
+      withCredentials: true,
+    }
+  );

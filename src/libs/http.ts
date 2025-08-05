@@ -13,17 +13,19 @@ const axiosInstance = axios.create({
   },
 });
 
+// 요청 시 AccessToken 추가
 axiosInstance.interceptors.request.use(
   (config) => {
-    const accessToken = useAuthStore.getState().accessToken;
-    if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
-    else console.warn("No Access Token");
-
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
     return config;
   },
   (error) => Promise.reject(error)
 );
 
+// 응답 에러 시 AccessToken 재발급 & 재요청
 axiosInstance.interceptors.response.use(
   (res) => res,
   async (error) => {
@@ -32,12 +34,22 @@ axiosInstance.interceptors.response.use(
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
-      const refreshRes = refresh();
-      const newAccessToken = (await refreshRes).data.accessToken;
-      useAuthStore.getState().setAccessToken(newAccessToken);
+      try {
+        const refreshRes = await refresh();
+        const newAccessToken = refreshRes.data.accessToken;
 
-      originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-      return axios(originalRequest);
+        console.log(newAccessToken);
+
+        useAuthStore.getState().setAccessToken(newAccessToken);
+        localStorage.setItem("accessToken", newAccessToken);
+
+        originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+
+        return axiosInstance(originalRequest);
+      } catch (refreshError) {
+        console.warn("Token refresh failed", refreshError);
+        return Promise.reject(refreshError);
+      }
     }
 
     return Promise.reject(error);
