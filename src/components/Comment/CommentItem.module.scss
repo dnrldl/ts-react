@@ -2,14 +2,20 @@
 
 .container {
   margin-bottom: 22px;
+  border-bottom: 0.5px #ccc solid;
 }
 
-.email {
+.infoWrapper {
+  margin-bottom: 10px;
+}
+
+.nickname {
   font-size: 0.9em;
   color: $color-detail-text;
   margin-bottom: 5px;
 }
 
-.body {
-  color: black;
+.time {
+  font-size: 0.8rem;
+  color: $color-secondary;
 }

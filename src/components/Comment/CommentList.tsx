@@ -7,27 +7,36 @@ import { useEffect } from "react";
 interface CommentListProps {
   postId: number;
   setCommentCount: (count: number) => void;
+  refetchKey?: number;
 }
 
-const CommentList = ({ postId, setCommentCount }: CommentListProps) => {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["comments", postId],
-    queryFn: () => getComments(String(postId)),
+const CommentList = ({
+  postId,
+  setCommentCount,
+  refetchKey,
+}: CommentListProps) => {
+  const {
+    data: comments,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["comments", postId, refetchKey],
+    queryFn: () => getComments(postId),
   });
 
   useEffect(() => {
-    if (data) {
-      setCommentCount(data.data.length);
+    if (comments) {
+      setCommentCount(comments.length);
     }
-  }, [data, setCommentCount]);
+  }, [comments, setCommentCount]);
 
   if (isLoading) return <LoadingSkeleton />;
-  if (!data) return null;
+  if (!comments) return null;
   if (error) return <div>에러 발생: {error.message}</div>;
 
   return (
     <div>
-      {data.data.map((item) => {
+      {comments.map((item) => {
         return <CommentItem key={item.id} comment={item} />;
       })}
     </div>

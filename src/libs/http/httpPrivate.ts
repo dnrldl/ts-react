@@ -1,31 +1,10 @@
-import { refresh } from "api/auth";
-import axios from "axios";
+import { createHttpClient } from "./httpFactory";
 import { useAuthStore } from "store/useAuthStore";
 import { ApiResponse } from "types/api";
 
-const BASE_URL = process.env.REACT_APP_API_URL + "/api";
+const axiosInstance = createHttpClient(true);
 
-const axiosInstance = axios.create({
-  baseURL: BASE_URL,
-  withCredentials: true,
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
-
-// 요청 시 AccessToken 추가
-axiosInstance.interceptors.request.use(
-  (config) => {
-    const accessToken = localStorage.getItem("accessToken");
-    if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
-
-// 응답 에러 시 AccessToken 재발급 & 재요청
+// 401 응답 시 refresh 요청 후 재시도
 axiosInstance.interceptors.response.use(
   (res) => res,
   async (error) => {
@@ -35,19 +14,19 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const refreshRes = await refresh();
-        const newAccessToken = refreshRes.data.accessToken;
+        const { refresh } = await import("./httpPublic"); // 순환 참조 방지
+        const newAccessToken = await refresh();
 
-        console.log(newAccessToken);
-
-        useAuthStore.getState().setAccessToken(newAccessToken);
         localStorage.setItem("accessToken", newAccessToken);
+        useAuthStore.getState().setAccessToken(newAccessToken);
+        console.log("Refresh Token Successed!");
 
-        originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         return axiosInstance(originalRequest);
       } catch (refreshError) {
-        console.warn("Token refresh failed", refreshError);
+        useAuthStore.getState().clear();
+        localStorage.removeItem("accessToken");
+        console.error("Refresh Token Faild!");
         return Promise.reject(refreshError);
       }
     }
@@ -56,24 +35,21 @@ axiosInstance.interceptors.response.use(
   }
 );
 
-export const http = {
+export const privateHttp = {
   get: async <T>(url: string, config = {}) => {
     const res = await axiosInstance.get<ApiResponse<T>>(url, config);
-    return res.data;
+    return res.data.data;
   },
-
   post: async <T>(url: string, body?: any, config = {}) => {
     const res = await axiosInstance.post<ApiResponse<T>>(url, body, config);
-    return res.data;
+    return res.data.data;
   },
-
   put: async <T>(url: string, body?: any, config = {}) => {
     const res = await axiosInstance.put<ApiResponse<T>>(url, body, config);
-    return res.data;
+    return res.data.data;
   },
-
   delete: async <T>(url: string, config = {}) => {
     const res = await axiosInstance.delete<ApiResponse<T>>(url, config);
-    return res.data;
+    return res.data.data;
   },
 };

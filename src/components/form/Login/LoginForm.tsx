@@ -7,19 +7,32 @@ import { toast } from "sonner";
 import { useAuthStore } from "store/useAuthStore";
 import styles from "./LoginForm.module.scss";
 
-const LoginForm = () => {
+interface LoginFormProps {
+  redirectPath: string;
+}
+
+const LoginForm = ({ redirectPath }: LoginFormProps) => {
+  console.log(redirectPath);
   const navigate = useNavigate();
-  const setAccessToken = useAuthStore((state) => state.setAccessToken);
+  const setAccessToken = useAuthStore((s) => s.setAccessToken);
+  const setUserInfo = useAuthStore((s) => s.setUserInfo);
 
   const { mutate, isPending } = useMutation({
     mutationFn: login,
     onSuccess: (res) => {
-      const { accessToken } = res.data;
-      setAccessToken(accessToken);
-      localStorage.setItem("accessToken", accessToken);
+      setAccessToken(res.accessToken);
+      setUserInfo({
+        userId: res.userId,
+        nickname: res.nickname,
+        email: res.email,
+        profileImageUrl: res.profileImageUrl,
+        role: res.role,
+      });
+      localStorage.setItem("accessToken", res.accessToken);
 
       toast.success("Login Success!");
-      navigate("/");
+      console.log(redirectPath);
+      navigate(redirectPath, { replace: true });
     },
     onError: () => {
       toast.error("Invalid Value!");

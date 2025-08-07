@@ -1,13 +1,15 @@
 import Container from "components/Container";
 import Button from "components/ui/Button/Button";
 import React from "react";
-import { openWindow } from "utils/popup";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
+  const navigate = useNavigate();
+
   return (
     <Container>
       <h1>Home</h1>
-      <Button onClick={() => openWindow("https://www.naver.com")}>Test</Button>
+      <Button onClick={() => navigate("/users/looper")}>Test</Button>
     </Container>
   );
 };

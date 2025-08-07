@@ -1,18 +1,18 @@
+import { AlreadyAuth } from "components/auth/AlreadyAuth";
+import RequireAuth from "components/auth/RequireAuth";
 import { useApplyTheme } from "hooks/useApplyTheme";
 import HeaderLayout from "layouts/HeaderLayout";
 import NoHeaderLayout from "layouts/NoHeaderLayout";
 import HomePage from "pages/home";
+import LoginPage from "pages/login";
 import NotFoundPage from "pages/notfound";
 import PostPage from "pages/posts";
-import PostDetailPage from "pages/posts/PostDetailPage";
 import PostAddPage from "pages/posts/PostAddPage";
-import { Route, Routes } from "react-router-dom";
-import LoginPage from "pages/login";
-import RequireAuth from "components/auth/RequireAuth";
-import { Toaster } from "sonner";
-import { AlreadyAuth } from "components/auth/AlreadyAuth";
+import PostDetailPage from "pages/posts/PostDetailPage";
 import RegisterPage from "pages/register";
-import MyPage from "pages/mypage";
+import UserProfilePage from "pages/user-profile";
+import { Route, Routes } from "react-router-dom";
+import { Toaster } from "sonner";
 
 const App = () => {
   useApplyTheme();
@@ -22,8 +22,9 @@ const App = () => {
       <Routes>
         {/* 헤더 보이는 레이아웃 */}
         <Route element={<HeaderLayout />}>
+          {/* 홈페이지 */}
           <Route path="/" element={<HomePage />} />
-
+          {/* 로그인 */}
           <Route
             path="/login"
             element={
@@ -32,6 +33,7 @@ const App = () => {
               </AlreadyAuth>
             }
           />
+          {/* 회원가입 */}
           <Route
             path="/register"
             element={
@@ -41,6 +43,7 @@ const App = () => {
             }
           />
 
+          {/* 게시글 */}
           <Route path="/posts" element={<PostPage />} />
           <Route path="/posts/:id" element={<PostDetailPage />} />
           <Route
@@ -52,11 +55,21 @@ const App = () => {
             }
           />
 
+          {/* 마이페이지 */}
           <Route
-            path="/mypage"
+            path="/users/me"
             element={
               <RequireAuth>
-                <MyPage />
+                <UserProfilePage />
+              </RequireAuth>
+            }
+          />
+          {/* 유저페이지 */}
+          <Route
+            path="/users/:id"
+            element={
+              <RequireAuth>
+                <UserProfilePage />
               </RequireAuth>
             }
           />

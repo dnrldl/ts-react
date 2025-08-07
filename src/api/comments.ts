@@ -1,10 +1,11 @@
-import { http } from "libs/http";
+import { privateHttp } from "libs/http/httpPrivate";
+import { publicHttp } from "libs/http/httpPublic";
 import { Comment } from "types/type";
 
-type CreateComment = { postId: string; content: string };
+type CreateComment = { postId: number; content: string };
 
-export const getComments = (postId: string) =>
-  http.get<Comment[]>(`/posts/${postId}/comments`);
+export const getComments = (postId: number) =>
+  publicHttp.get<Comment[]>(`/posts/${postId}/comments`);
 
 export const createComment = ({ postId, content }: CreateComment) =>
-  http.post(`/posts/${postId}/comments`, { content });
+  privateHttp.post(`/posts/${postId}/comments`, { content });

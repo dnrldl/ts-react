@@ -1,17 +1,18 @@
-import { useMutation } from "@tanstack/react-query";
-import { createComment } from "api/comments";
-import React, { useRef, useState } from "react";
+import Button from "components/ui/Button/Button";
+import styles from "./CommentEditor.module.scss";
+import React, { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
+import { useAuthStore } from "store/useAuthStore";
 
 interface CommentEditorProps {
-  postId: string;
   onSubmit: (content: string) => void;
   isLoading: boolean;
 }
 
-const CommentEditor = ({ postId, onSubmit, isLoading }: CommentEditorProps) => {
+const CommentEditor = ({ onSubmit, isLoading }: CommentEditorProps) => {
   const [content, setContent] = useState<string>("");
   const contentRef = useRef<HTMLTextAreaElement>(null);
+  const isLoggedIn = useAuthStore((s) => s.isLoggedIn);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
@@ -20,17 +21,45 @@ const CommentEditor = ({ postId, onSubmit, isLoading }: CommentEditorProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!content.trim()) {
-      toast.info("Please insert content!");
+    if (!isLoggedIn) {
+      toast.warning("Require Login!");
+      return;
     }
-    // mutation.mutate({ postId, content });
+
+    if (!content.trim()) {
+      toast.warning("Enter comment!");
+      contentRef.current?.focus();
+      return;
+    }
+    onSubmit(content);
+    setContent("");
+  };
+
+  const handleFocus = () => {
+    if (!isLoggedIn) {
+      toast.warning("Require Login!");
+      contentRef.current?.blur();
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <textarea ref={contentRef} onChange={handleChange} value={content} />
-      <input onChange={(e) => {}} />
-      <button>send</button>
+    <form onSubmit={handleSubmit} className={styles.editorForm}>
+      <textarea
+        ref={contentRef}
+        onChange={handleChange}
+        onFocus={handleFocus}
+        value={content}
+        disabled={isLoading}
+        className={styles.textarea}
+        placeholder="Enter comment..."
+        readOnly={!isLoggedIn}
+        rows={3}
+      />
+      <div className={styles.buttonWrapper}>
+        <Button type="submit" disabled={isLoading}>
+          {isLoading ? "Sending..." : "Send"}
+        </Button>
+      </div>
     </form>
   );
 };

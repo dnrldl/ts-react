@@ -1,23 +1,17 @@
-import { http } from "libs/http";
+import { publicHttp } from "libs/http/httpPublic";
 import { RegisterRequest } from "types/api";
 
 type LoginResponse = {
   accessToken: string;
-  refreshToken: string;
+  userId: number;
+  email: string;
+  nickname: string;
+  profileImageUrl: string;
+  role: string;
 };
-type RefreshResponse = Omit<LoginResponse, "refreshToken">;
 
 export const login = (form: { email: string; password: string }) =>
-  http.post<LoginResponse>("/auth/login", form);
+  publicHttp.post<LoginResponse>("/auth/login", form);
 
 export const register = (form: RegisterRequest) =>
-  http.post<string>("/users/register", form);
-
-export const refresh = () =>
-  http.post<RefreshResponse>(
-    "/auth/reissue",
-    {},
-    {
-      withCredentials: true,
-    }
-  );
+  publicHttp.post<string>("/users/register", form);

@@ -3,9 +3,12 @@ import styles from "./Header.module.scss";
 import { useAuthStore } from "store/useAuthStore";
 import Button from "components/ui/Button/Button";
 import { User } from "lucide-react";
+import { memo } from "react";
+import { toast } from "sonner";
 
 const Header = () => {
-  const { accessToken, clear } = useAuthStore();
+  const accessToken = useAuthStore((state) => state.accessToken);
+  const clear = useAuthStore((state) => state.clear);
 
   return (
     <header className={styles.header}>
@@ -17,26 +20,23 @@ const Header = () => {
         <div className={styles.navRight}>
           <Button
             onClick={() => {
-              console.log(
-                "localstorage = " + localStorage.getItem("accessToken")
-              );
-              console.log("zustand = " + useAuthStore.getState().accessToken);
+              console.log(useAuthStore.getState());
             }}
           >
-            check token
+            상태 체크
           </Button>
-          <Button
-            onClick={() => {
-              localStorage.clear();
-              clear();
-            }}
-          >
-            clear tokens
-          </Button>
+
           {accessToken ? (
             <>
               <LoginUser />
-              <Button onClick={clear}>Logout</Button>
+              <Button
+                onClick={() => {
+                  clear();
+                  toast.success("Logout Success!");
+                }}
+              >
+                Logout
+              </Button>
             </>
           ) : (
             <AuthSection />
@@ -49,7 +49,7 @@ const Header = () => {
 
 const LoginUser = () => (
   <div className={styles.loginUserSection}>
-    <NavLink to="/mypage">
+    <NavLink to="/users/me">
       <User className={styles.userIcon} />
     </NavLink>
   </div>
@@ -67,7 +67,7 @@ interface NavItemProps {
   path: string;
 }
 
-const NavItem = ({ title, path }: NavItemProps) => {
+const NavItem = memo(({ title, path }: NavItemProps) => {
   return (
     <NavLink
       to={path}
@@ -78,6 +78,6 @@ const NavItem = ({ title, path }: NavItemProps) => {
       {title}
     </NavLink>
   );
-};
+});
 
-export default Header;
+export default memo(Header);

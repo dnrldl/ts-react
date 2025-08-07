@@ -1,4 +1,5 @@
 import Header from "components/Header";
+import { memo } from "react";
 import { Outlet } from "react-router-dom";
 
 const HeaderLayout = () => {
@@ -10,4 +11,4 @@ const HeaderLayout = () => {
   );
 };
 
-export default HeaderLayout;
+export default memo(HeaderLayout);

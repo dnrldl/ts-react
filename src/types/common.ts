@@ -4,6 +4,17 @@ export interface Page<T> {
   size: number;
   totalElements: number;
   totalPages: number;
-  last: boolean;
+  last?: boolean;
   sortBy?: string | null;
+  direction?: string;
+}
+
+export interface PageInfo {
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+  last?: boolean;
+  sortBy?: string | null;
+  direction?: string;
 }

@@ -1,13 +1,12 @@
-import { Navigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useAuthStore } from "store/useAuthStore";
 
 export const AlreadyAuth = ({ children }: { children: React.ReactNode }) => {
-  const accessToken = useAuthStore.getState().accessToken;
+  const isLoggedIn = useAuthStore((s) => s.isLoggedIn);
 
-  if (accessToken) {
+  if (isLoggedIn) {
     toast.info("Already Logined!");
-    return <Navigate to="/" replace />;
+    // TODO: guard routing
   }
 
   return <>{children}</>;

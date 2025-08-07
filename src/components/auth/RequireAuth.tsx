@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { toast } from "sonner";
 import { useAuthStore } from "store/useAuthStore";
 
@@ -7,11 +7,12 @@ interface RequireAuthProps {
 }
 
 const RequireAuth = ({ children }: RequireAuthProps) => {
-  const accessToken = useAuthStore.getState().accessToken;
+  const isLoggedIn = useAuthStore((s) => s.isLoggedIn);
+  const location = useLocation();
 
-  if (!accessToken) {
+  if (!isLoggedIn) {
     toast.info("Require Login!");
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
   return <>{children}</>;
