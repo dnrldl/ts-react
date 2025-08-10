@@ -1,37 +1,60 @@
 import { createHttpClient } from "./httpFactory";
 import { useAuthStore } from "store/useAuthStore";
 import { ApiResponse } from "types/api";
+import { refresh } from "./httpPublic";
 
 const axiosInstance = createHttpClient(true);
 
-// 401 응답 시 refresh 요청 후 재시도
+// (1) refresh 폭주 방지(동시 401 한 번만 처리)
+let refreshPromise: Promise<string> | null = null;
+const EXCLUDE_REFRESH = ["/auth/login", "/auth/register", "/auth/refresh"];
+
+async function getFreshToken() {
+  if (!refreshPromise) {
+    refreshPromise = (async () => {
+      const newAccessToken = await refresh(); // ⬅️ 네가 만든 refresh() 호출
+      localStorage.setItem("accessToken", newAccessToken);
+      useAuthStore.getState().setAccessToken(newAccessToken);
+      console.log("Refresh Token Succeeded!");
+      return newAccessToken;
+    })().finally(() => {
+      refreshPromise = null;
+    });
+  }
+  return refreshPromise;
+}
+
+// 401 응답 시 refresh 후 재시도
 axiosInstance.interceptors.response.use(
   (res) => res,
   async (error) => {
-    const originalRequest = error.config;
+    const originalRequest = error.config ?? {};
+    const url = originalRequest.url ?? "";
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
+    const shouldTryRefresh =
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !EXCLUDE_REFRESH.some((p) => url.includes(p));
 
-      try {
-        const { refresh } = await import("./httpPublic"); // 순환 참조 방지
-        const newAccessToken = await refresh();
-
-        localStorage.setItem("accessToken", newAccessToken);
-        useAuthStore.getState().setAccessToken(newAccessToken);
-        console.log("Refresh Token Successed!");
-
-        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-        return axiosInstance(originalRequest);
-      } catch (refreshError) {
-        useAuthStore.getState().clear();
-        localStorage.removeItem("accessToken");
-        console.error("Refresh Token Faild!");
-        return Promise.reject(refreshError);
-      }
+    if (!shouldTryRefresh) {
+      return Promise.reject(error);
     }
 
-    return Promise.reject(error);
+    originalRequest._retry = true;
+
+    try {
+      const newAccessToken = await getFreshToken();
+      originalRequest.headers = {
+        ...(originalRequest.headers ?? {}),
+        Authorization: `Bearer ${newAccessToken}`,
+      };
+      return axiosInstance(originalRequest); // 실패했던 요청 재시도
+    } catch (e) {
+      console.error("Refresh Token Failed!");
+      useAuthStore.getState().clear();
+      localStorage.removeItem("accessToken");
+      return Promise.reject(e);
+    }
   }
 );
 

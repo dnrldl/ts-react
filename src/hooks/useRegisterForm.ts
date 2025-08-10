@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from "react";
-import { RegisterRequest } from "types/api";
+import { RegisterRequest } from "types/auth";
 import { getCurrentDate, getDateOnly } from "utils/dateUtils";
 
 type RegisterForm = RegisterRequest & { confirmPassword: string };

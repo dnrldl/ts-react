@@ -16,6 +16,6 @@ export const publicHttp = {
 
 // refresh 전용 함수 (순환 참조 방지용 분리)
 export const refresh = async (): Promise<string> => {
-  const res = await axiosInstance.post<ApiResponse<string>>("/auth/reissue");
+  const res = await axiosInstance.post<ApiResponse<string>>("/auth/refresh");
   return res.data.data;
 };

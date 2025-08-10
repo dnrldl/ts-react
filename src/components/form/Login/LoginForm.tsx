@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { login } from "api/auth";
 import Button from "components/ui/Button/Button";
 import { useLoginForm } from "hooks/useLoginForm";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useAuthStore } from "store/useAuthStore";
 import styles from "./LoginForm.module.scss";
@@ -12,7 +12,6 @@ interface LoginFormProps {
 }
 
 const LoginForm = ({ redirectPath }: LoginFormProps) => {
-  console.log(redirectPath);
   const navigate = useNavigate();
   const setAccessToken = useAuthStore((s) => s.setAccessToken);
   const setUserInfo = useAuthStore((s) => s.setUserInfo);
@@ -31,10 +30,10 @@ const LoginForm = ({ redirectPath }: LoginFormProps) => {
       localStorage.setItem("accessToken", res.accessToken);
 
       toast.success("Login Success!");
-      console.log(redirectPath);
       navigate(redirectPath, { replace: true });
     },
-    onError: () => {
+    onError: (e) => {
+      console.log(e);
       toast.error("Invalid Value!");
     },
   });
@@ -73,6 +72,18 @@ const LoginForm = ({ redirectPath }: LoginFormProps) => {
         {errors.password && (
           <div className={styles.error}>{errors.password}</div>
         )}
+      </div>
+
+      <div className={styles.bottom}>
+        <div className={styles.left}>
+          <label>
+            <input type="checkbox" />
+            Remember me
+          </label>
+        </div>
+        <Link to="/register" className={styles.right}>
+          Register
+        </Link>
       </div>
 
       <Button type="submit" disabled={isPending}>

@@ -1,8 +1,8 @@
 import Button from "components/ui/Button/Button";
-import styles from "./CommentEditor.module.scss";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { toast } from "sonner";
 import { useAuthStore } from "store/useAuthStore";
+import styles from "./CommentEditor.module.scss";
 
 interface CommentEditorProps {
   onSubmit: (content: string) => void;
@@ -57,7 +57,7 @@ const CommentEditor = ({ onSubmit, isLoading }: CommentEditorProps) => {
       />
       <div className={styles.buttonWrapper}>
         <Button type="submit" disabled={isLoading}>
-          {isLoading ? "Sending..." : "Send"}
+          {isLoading ? "Posting..." : "Post"}
         </Button>
       </div>
     </form>

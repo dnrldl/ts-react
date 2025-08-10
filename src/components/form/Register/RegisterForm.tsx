@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { register } from "api/auth";
 import Button from "components/ui/Button/Button";
 import { useRegisterForm } from "hooks/useRegisterForm";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import styles from "./RegisterForm.module.scss";
 
@@ -60,6 +60,13 @@ const RegisterForm = () => {
           )}
         </div>
       ))}
+
+      <div className={styles.bottom}>
+        <div className={styles.left}></div>
+        <Link to="/Login" className={styles.right}>
+          Login
+        </Link>
+      </div>
 
       <Button type="submit" disabled={isPending}>
         {isPending ? "Register..." : "Register"}

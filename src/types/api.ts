@@ -4,13 +4,10 @@ export interface ApiResponse<T> {
   timestamp: string;
 }
 
-export type RegisterRequest = {
-  email: string;
-  password: string;
-  nickname: string;
-  firstName: string;
-  lastName: string;
-  phoneNumber: string;
-  gender?: string;
-  birth?: string;
-};
+export interface ApiErrorResponse {
+  success: boolean;
+  code: string;
+  message: string;
+  status: number;
+  timestamp: string;
+}

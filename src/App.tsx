@@ -10,7 +10,8 @@ import PostPage from "pages/posts";
 import PostAddPage from "pages/posts/PostAddPage";
 import PostDetailPage from "pages/posts/PostDetailPage";
 import RegisterPage from "pages/register";
-import UserProfilePage from "pages/user-profile";
+import MyProfilePage from "pages/user-profile/MyProfilePage";
+import OtherProfilePage from "pages/user-profile/OtherProfilePage";
 import { Route, Routes } from "react-router-dom";
 import { Toaster } from "sonner";
 
@@ -60,19 +61,12 @@ const App = () => {
             path="/users/me"
             element={
               <RequireAuth>
-                <UserProfilePage />
+                <MyProfilePage />
               </RequireAuth>
             }
           />
           {/* 유저페이지 */}
-          <Route
-            path="/users/:id"
-            element={
-              <RequireAuth>
-                <UserProfilePage />
-              </RequireAuth>
-            }
-          />
+          <Route path="/users/:id" element={<OtherProfilePage />} />
         </Route>
 
         {/* 헤더 안보이는 레이아웃 */}

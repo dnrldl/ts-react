@@ -6,8 +6,6 @@ const LoginPage = () => {
   const location = useLocation();
   const from = (location.state as any)?.from?.pathname || "/";
 
-  console.log(from);
-
   return (
     <Container>
       <h1>Login</h1>

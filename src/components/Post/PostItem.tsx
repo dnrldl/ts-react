@@ -1,8 +1,8 @@
 import { Post } from "types/type";
 import styles from "./PostItem.module.scss";
 import { Link } from "react-router-dom";
-import { ChevronRight } from "lucide-react";
 import { getAgoTime } from "utils/dateUtils";
+import { Heart, MessageCircle } from "lucide-react";
 
 interface PostItemProps {
   post: Post;
@@ -10,18 +10,28 @@ interface PostItemProps {
 
 const PostItem = ({ post }: PostItemProps) => {
   return (
-    <Link to={String(post.id)} className={styles.container}>
-      <div className={styles.postContent}>
-        <h3 className={styles.title}>{post.content}</h3>
-
-        <div>{getAgoTime(post.createdAt.toString())}</div>
-
-        <div className="nickname">{post.authorNickname}</div>
-        <p className={styles.body}>{post.content}</p>
+    <Link to={String(post.id)} className={styles.postCard}>
+      <div className={styles.meta}>
+        <span className={styles.nickname}>{post.authorNickname}</span>{" "}
+        <span className={styles.time}>
+          {getAgoTime(post.createdAt.toString())}
+        </span>
       </div>
-
-      <div className={styles.chevronRight}>
-        <ChevronRight size={24} />
+      <div className={styles.content}>{post.content}</div>
+      <div className={styles.footer}>
+        <span
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log("asdasdsa");
+          }}
+          className={styles.action}
+        >
+          <Heart /> {post.likeCount}
+        </span>
+        <span className={styles.action}>
+          <MessageCircle /> {post.commentCount}
+        </span>
       </div>
     </Link>
   );

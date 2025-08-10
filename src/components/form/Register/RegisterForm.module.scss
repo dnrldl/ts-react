@@ -1,36 +1,88 @@
+// .form {
+//   display: flex;
+//   flex-direction: column;
+//   gap: 1rem;
+//   width: 100%;
+//   max-width: 400px;
+//   margin: 0 auto;
+//   padding: 2rem;
+//   background-color: #fff;
+//   border-radius: 12px;
+//   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+//   .field {
+//     display: flex;
+//     flex-direction: column;
+//   }
+
+//   .input {
+//     padding: 0.75rem 1rem;
+//     border: 1px solid #ccc;
+//     border-radius: 8px;
+//     font-size: 1rem;
+//     transition: border-color 0.2s ease;
+
+//     &:focus {
+//       border-color: #0070f3;
+//       outline: none;
+//     }
+//   }
+
+//   .error {
+//     margin-top: 0.3rem;
+//     color: #e53935;
+//     font-size: 0.875rem;
+//   }
+
+//   .bottom {
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+
+//     .right {
+//       color: #0070f3;
+//       text-decoration: none;
+//       font-size: 0.875rem;
+
+//       &:hover {
+//         text-decoration: underline;
+//       }
+//     }
+//   }
+// }
+
+/* RegisterForm.module.scss */
 .form {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: 1rem;
-  width: 100%;
-  max-width: 400px;
+  max-width: 420px;
   margin: 0 auto;
-  padding: 2rem;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
-
+.progress {
+  font-size: 0.9rem;
+  color: #666;
+  text-align: right;
+}
 .field {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  gap: 0.5rem;
 }
-
 .input {
-  padding: 0.75rem 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: border-color 0.2s ease;
-
-  &:focus {
-    border-color: #0070f3;
-    outline: none;
-  }
+  padding: 0.8rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 10px;
 }
-
 .error {
-  margin-top: 0.3rem;
-  color: #e53935;
-  font-size: 0.875rem;
+  color: #d33;
+  font-size: 0.85rem;
+}
+.wizardNav {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

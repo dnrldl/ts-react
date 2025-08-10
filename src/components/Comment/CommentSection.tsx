@@ -17,11 +17,11 @@ const CommentSection = ({ postId }: CommentSectionProps) => {
     mutationFn: (content: string) =>
       createComment({ postId: postId!, content }),
     onSuccess: () => {
-      toast.success("댓글이 등록되었습니다.");
+      toast.success("Comment Post Success!");
       setRefetchKey((prev) => prev + 1);
     },
     onError: () => {
-      toast.error("댓글 등록에 실패했습니다.");
+      toast.error("Comment Post Failed!");
     },
   });
 

@@ -1,14 +1,13 @@
-import { NavLink } from "react-router-dom";
-import styles from "./Header.module.scss";
-import { useAuthStore } from "store/useAuthStore";
+import LoggedInUserSection from "components/Header/LoggedInUserSection";
 import Button from "components/ui/Button/Button";
-import { User } from "lucide-react";
 import { memo } from "react";
-import { toast } from "sonner";
+import { NavLink } from "react-router-dom";
+import { useAuthStore } from "store/useAuthStore";
+import styles from "./Header.module.scss";
+import { User } from "lucide-react";
 
 const Header = () => {
-  const accessToken = useAuthStore((state) => state.accessToken);
-  const clear = useAuthStore((state) => state.clear);
+  const isLoggedIn = useAuthStore((s) => s.isLoggedIn);
 
   return (
     <header className={styles.header}>
@@ -26,48 +25,22 @@ const Header = () => {
             상태 체크
           </Button>
 
-          {accessToken ? (
-            <>
-              <LoginUser />
-              <Button
-                onClick={() => {
-                  clear();
-                  toast.success("Logout Success!");
-                }}
-              >
-                Logout
-              </Button>
-            </>
-          ) : (
-            <AuthSection />
-          )}
+          <NavLink to={`/users/me`}>
+            <User className={styles.userIcon} />
+          </NavLink>
+          {isLoggedIn && <LoggedInUserSection />}
         </div>
       </nav>
     </header>
   );
 };
 
-const LoginUser = () => (
-  <div className={styles.loginUserSection}>
-    <NavLink to="/users/me">
-      <User className={styles.userIcon} />
-    </NavLink>
-  </div>
-);
-
-const AuthSection = () => (
-  <div className={styles.authSection}>
-    <NavItem title="Login" path="/login" />
-    <NavItem title="Register" path="/register" />
-  </div>
-);
-
 interface NavItemProps {
   title: string;
   path: string;
 }
 
-const NavItem = memo(({ title, path }: NavItemProps) => {
+export const NavItem = memo(({ title, path }: NavItemProps) => {
   return (
     <NavLink
       to={path}
