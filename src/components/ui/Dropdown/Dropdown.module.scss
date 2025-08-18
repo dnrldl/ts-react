@@ -1,0 +1,97 @@
+.dropdown {
+  position: relative;
+  display: inline-block;
+  min-width: 180px;
+  font: inherit;
+}
+
+.button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    border-color: #cbd5e1;
+  }
+  &:focus-visible {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  }
+}
+
+.label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.placeholder {
+  color: #9ca3af;
+}
+.caret {
+  margin-left: 0.25rem;
+}
+
+.menu {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 0.375rem);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  padding: 0.375rem;
+  overflow: auto;
+}
+
+.item {
+  padding: 0.5rem 0.625rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    background: #f3f4f6;
+  }
+}
+
+.active {
+  background: #eef2ff;
+}
+.selected {
+  font-weight: 600;
+  position: relative;
+}
+
+.itemDisabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  &:hover {
+    background: transparent;
+  }
+}
+
+.sm .button {
+  padding: 0.5rem 0.625rem;
+  border-radius: 0.625rem;
+}
+.lg .button {
+  padding: 0.75rem 0.875rem;
+  border-radius: 0.875rem;
+}
+
+.disabled .button {
+  background: #f9fafb;
+  color: #9ca3af;
+  cursor: not-allowed;
+}

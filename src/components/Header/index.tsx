@@ -1,13 +1,14 @@
 import LoggedInUserSection from "components/Header/LoggedInUserSection";
-import Button from "components/ui/Button/Button";
+import UnLoggedInUserSection from "components/Header/UnLoggedInUserSection";
+import { User } from "lucide-react";
 import { memo } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { useAuthStore } from "store/useAuthStore";
 import styles from "./Header.module.scss";
-import { User } from "lucide-react";
 
 const Header = () => {
   const isLoggedIn = useAuthStore((s) => s.isLoggedIn);
+  const location = useLocation();
 
   return (
     <header className={styles.header}>
@@ -17,18 +18,15 @@ const Header = () => {
           <NavItem title="Posts" path="/posts" />
         </div>
         <div className={styles.navRight}>
-          <Button
+          <button
             onClick={() => {
-              console.log(useAuthStore.getState());
+              console.log(location);
             }}
           >
             상태 체크
-          </Button>
-
-          <NavLink to={`/users/me`}>
-            <User className={styles.userIcon} />
-          </NavLink>
-          {isLoggedIn && <LoggedInUserSection />}
+          </button>
+          <NavItem title={<User size={24} />} path="/users/me" />
+          {isLoggedIn ? <LoggedInUserSection /> : <UnLoggedInUserSection />}
         </div>
       </nav>
     </header>
@@ -36,7 +34,7 @@ const Header = () => {
 };
 
 interface NavItemProps {
-  title: string;
+  title: React.ReactNode;
   path: string;
 }
 

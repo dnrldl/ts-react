@@ -22,6 +22,7 @@ const CommentList = ({
   } = useQuery({
     queryKey: ["comments", postId, refetchKey],
     queryFn: () => getComments(postId),
+    gcTime: 5_000,
   });
 
   useEffect(() => {

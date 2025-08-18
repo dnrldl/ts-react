@@ -8,6 +8,8 @@
 export interface Post {
   id: number;
   content: string;
+  thumbnailUrl?: string;
+  imageUrls?: string[];
   authorNickname: string;
   commentCount: number;
   likeCount: number;
@@ -15,6 +17,17 @@ export interface Post {
   isLiked: boolean;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface PostImage {
+  storageKey: string;
+  url: string;
+  width?: number;
+  height?: number;
+  bytes?: number;
+  mimeType?: string;
+  orderIndex: number;
+  isThumbnail: boolean;
 }
 
 export interface Comment {

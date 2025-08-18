@@ -6,3 +6,6 @@ export const getPublicUserProfile = (userId: number) =>
   publicHttp.get<User>(`/users/${userId}`);
 
 export const getMyProfile = () => privateHttp.get<User>("/users/me");
+
+export const checkEmailDuplicate = (email: string) =>
+  publicHttp.get(`/users/check/email?email=${email}`);

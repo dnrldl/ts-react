@@ -1,0 +1,46 @@
+.grid {
+  margin-top: 8px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.cell {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #111827;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05) inset;
+}
+
+.thumb {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.2s ease;
+}
+.cell:hover .thumb {
+  transform: scale(1.02);
+}
+
+.removeBtn {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}

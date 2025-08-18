@@ -8,7 +8,6 @@ import styles from "./RegisterForm.module.scss";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
-
   const { values, errors, refs, handleChange, handleSubmit } = useRegisterForm(
     (values) => {
       mutate(values);

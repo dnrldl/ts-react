@@ -7,8 +7,7 @@ const LoginPage = () => {
   const from = (location.state as any)?.from?.pathname || "/";
 
   return (
-    <Container>
-      <h1>Login</h1>
+    <Container title="Login" backButton>
       <LoginForm redirectPath={from} />
     </Container>
   );

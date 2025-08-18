@@ -1,12 +1,13 @@
+@import "styles/variables.scss";
+
 .header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
+  margin-bottom: 1rem;
 }
 
-.wideBanner {
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
-  background-color: #eee;
-  padding: 2rem 0;
+.end {
+  text-align: center;
+  color: #999;
 }

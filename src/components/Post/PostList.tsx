@@ -6,14 +6,11 @@ interface PostListProps {
   posts: Post[];
 }
 
-const PostList = ({ posts }: PostListProps) => {
-  return (
-    <div className={styles.container}>
-      {posts.map((item) => {
-        return <PostItem key={item.id} post={item} />;
-      })}
-    </div>
-  );
-};
-
+const PostList = ({ posts }: PostListProps) => (
+  <div className={styles.container}>
+    {posts.map((post) => {
+      return <PostItem key={post.id} post={post} />;
+    })}
+  </div>
+);
 export default PostList;

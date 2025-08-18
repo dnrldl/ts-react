@@ -1,9 +1,11 @@
 .editorForm {
   display: flex;
-  flex-direction: column;
   gap: 0.75rem;
   //   padding: 1rem;
   background-color: #fff;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.2rem;
   //   border: 1px solid #ddd;
   //   border-radius: 12px;
 }
@@ -14,8 +16,8 @@
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 0.95rem;
-  resize: vertical;
-  min-height: 80px;
+  resize: none;
+  min-height: 1rem;
   outline: none;
   transition: border-color 0.2s;
 
@@ -28,28 +30,3 @@
     cursor: not-allowed;
   }
 }
-
-.buttonWrapper {
-  display: flex;
-  justify-content: flex-end;
-}
-
-// .submitButton {
-//   padding: 0.5rem 1.25rem;
-//   font-size: 0.9rem;
-//   border: none;
-//   border-radius: 6px;
-//   background-color: #007bff;
-//   color: #fff;
-//   cursor: pointer;
-//   transition: background-color 0.2s;
-
-//   &:hover {
-//     background-color: #0056b3;
-//   }
-
-//   &:disabled {
-//     background-color: #ccc;
-//     cursor: not-allowed;
-//   }
-// }

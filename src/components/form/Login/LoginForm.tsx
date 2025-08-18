@@ -33,7 +33,6 @@ const LoginForm = ({ redirectPath }: LoginFormProps) => {
       navigate(redirectPath, { replace: true });
     },
     onError: (e) => {
-      console.log(e);
       toast.error("Invalid Value!");
     },
   });

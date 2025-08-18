@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 
-export const createHttpClient = (withAuth: boolean): AxiosInstance => {
+export const createHttpClient = (): AxiosInstance => {
   const instance = axios.create({
     baseURL: process.env.REACT_APP_API_URL + "/api",
     withCredentials: true,
@@ -8,16 +8,6 @@ export const createHttpClient = (withAuth: boolean): AxiosInstance => {
       "Content-Type": "application/json",
     },
   });
-
-  if (withAuth) {
-    instance.interceptors.request.use((config) => {
-      const accessToken = localStorage.getItem("accessToken");
-      if (accessToken) {
-        config.headers.Authorization = `Bearer ${accessToken}`;
-      }
-      return config;
-    });
-  }
 
   return instance;
 };

@@ -7,8 +7,7 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   return (
-    <Container>
-      <h1>Home</h1>
+    <Container title="Home">
       <Button onClick={() => navigate("/users/looper")}>Test</Button>
     </Container>
   );

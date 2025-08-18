@@ -1,3 +1,4 @@
+/* 컨테이너 패딩/반응형 */
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -6,12 +7,73 @@
   @media (max-width: 1024px) {
     padding: 2.5rem 1.25rem;
   }
-
   @media (max-width: 768px) {
     padding: 2rem 1rem;
   }
-
   @media (max-width: 480px) {
     padding: 1.5rem 0.75rem;
   }
+}
+
+/* 상단 툴바: 버튼 유무와 관계없이 항상 같은 그리드 레이아웃 */
+.toolbar {
+  // display: grid;
+  // grid-template-columns: 40px 1fr 40px; /* 좌:뒤로가기, 중앙:타이틀, 우:액션 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 40px;
+  margin-bottom: 1rem;
+}
+
+/* 뒤로가기 버튼 (터치 타겟/포커스/호버 포함) */
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px; /* 터치 타겟 확보 */
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  color: inherit;
+  transition: background-color 0.15s ease, opacity 0.15s ease;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.06);
+  }
+  &:active {
+    opacity: 0.8;
+  }
+  &:focus-visible {
+    outline: 2px solid #2684ff;
+    outline-offset: 2px;
+  }
+}
+
+/* 뒤로가기 없을 때도 동일 폭을 차지해서 타이틀 정렬 유지 */
+.backPlaceholder {
+  width: 36px;
+  height: 36px;
+}
+
+/* 타이틀 스타일 */
+.title {
+  // font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+  // font-weight: 600;
+  line-height: 1.2;
+  /* 필요 시 텍스트 넘침 처리 */
+  white-space: nowrap;
+  // overflow: hidden;
+  // text-overflow: ellipsis;
+}
+
+/* 우측 액션 영역(비어있어도 레이아웃 유지) */
+.right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
 }

@@ -3,19 +3,23 @@
 .container {
   margin-bottom: 22px;
   border-bottom: 0.5px #ccc solid;
-}
 
-.infoWrapper {
-  margin-bottom: 10px;
-}
+  .infoWrapper {
+    margin-bottom: 10px;
+  }
 
-.nickname {
-  font-size: 0.9em;
-  color: $color-detail-text;
-  margin-bottom: 5px;
-}
+  .nickname {
+    font-size: 0.9em;
+    color: $color-detail-text;
+    margin-bottom: 5px;
+  }
 
-.time {
-  font-size: 0.8rem;
-  color: $color-secondary;
+  .time {
+    font-size: 0.8rem;
+    color: $color-secondary;
+  }
+
+  p {
+    white-space: pre-line;
+  }
 }

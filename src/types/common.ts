@@ -18,3 +18,14 @@ export interface PageInfo {
   sortBy?: string | null;
   direction?: string;
 }
+
+export type PageResponse<T> = {
+  content: T[];
+  page: number; // 0-based
+  size: number;
+  totalElements: number;
+  totalPages: number; // 예: 6면 0~5 페이지
+  sortBy: string | null;
+  direction: "ASC" | "DESC" | null;
+  last: boolean; // 서버가 주는 끝 여부
+};

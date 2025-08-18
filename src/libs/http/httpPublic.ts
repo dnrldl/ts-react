@@ -1,7 +1,7 @@
 import { createHttpClient } from "./httpFactory";
 import { ApiResponse } from "types/api";
 
-const axiosInstance = createHttpClient(false);
+const axiosInstance = createHttpClient();
 
 export const publicHttp = {
   get: async <T>(url: string, config = {}) => {

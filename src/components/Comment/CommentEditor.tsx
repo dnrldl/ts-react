@@ -1,5 +1,5 @@
 import Button from "components/ui/Button/Button";
-import React, { useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useAuthStore } from "store/useAuthStore";
 import styles from "./CommentEditor.module.scss";
@@ -42,6 +42,12 @@ const CommentEditor = ({ onSubmit, isLoading }: CommentEditorProps) => {
     }
   };
 
+  // 현재 값의 줄 수 = 개행 수 + 1
+  const rows = useMemo(() => {
+    const lines = (content.match(/\n/g)?.length ?? 0) + 1;
+    return Math.max(lines, 1);
+  }, [content]);
+
   return (
     <form onSubmit={handleSubmit} className={styles.editorForm}>
       <textarea
@@ -53,13 +59,12 @@ const CommentEditor = ({ onSubmit, isLoading }: CommentEditorProps) => {
         className={styles.textarea}
         placeholder="Enter comment..."
         readOnly={!isLoggedIn}
-        rows={3}
+        rows={rows}
       />
-      <div className={styles.buttonWrapper}>
-        <Button type="submit" disabled={isLoading}>
-          {isLoading ? "Posting..." : "Post"}
-        </Button>
-      </div>
+
+      <Button type="submit" disabled={isLoading} variant="outline">
+        {isLoading ? "Posting..." : "Post"}
+      </Button>
     </form>
   );
 };

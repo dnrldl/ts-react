@@ -1,8 +1,8 @@
+import styles from "./Header.module.scss";
 import { logout } from "api/auth";
-import Button from "components/ui/Button/Button";
+import { LogOut } from "lucide-react";
 import { toast } from "sonner";
 import { useAuthStore } from "store/useAuthStore";
-import styles from "./Header.module.scss";
 
 const LoggedInUserSection = () => {
   const clear = useAuthStore((s) => s.clear);
@@ -19,13 +19,12 @@ const LoggedInUserSection = () => {
   };
 
   return (
-    <>
-      <LoggedInUser />
-      <Button onClick={handleLogout}>Logout</Button>
-    </>
+    <div className={styles.authSection}>
+      <button onClick={handleLogout} className={styles.userIcon}>
+        <LogOut size={24} />
+      </button>
+    </div>
   );
 };
-
-const LoggedInUser = () => <div className={styles.loginUserSection}></div>;
 
 export default LoggedInUserSection;

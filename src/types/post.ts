@@ -1,6 +1,15 @@
-export interface postCondition {
+export type SortByOption =
+  | "createdAt"
+  | "likeCount"
+  | "commentCount"
+  | "shareCount";
+
+export type DirectionType = "asc" | "desc";
+
+export interface PostCondition {
   page: number;
   size: number;
-  sortBy?: string;
-  direction?: string;
+  mineOnly?: boolean;
+  sortBy?: SortByOption;
+  direction?: DirectionType;
 }

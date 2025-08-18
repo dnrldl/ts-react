@@ -1,0 +1,45 @@
+/* Lightbox */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: grid;
+  place-items: center;
+  z-index: 1000;
+}
+
+.lightboxToolbar {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  background: rgba(17, 24, 39, 0.8);
+  padding: 8px 10px;
+  border-radius: 999px;
+  color: white;
+  align-items: center;
+}
+
+.tbBtn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.scale {
+  min-width: 44px;
+  text-align: center;
+}
+
+.lightboxImg {
+  max-width: 90vw;
+  max-height: 85vh;
+  object-fit: contain;
+  transition: transform 0.15s ease;
+  will-change: transform;
+}

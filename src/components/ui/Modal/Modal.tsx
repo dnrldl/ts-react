@@ -7,6 +7,7 @@ interface ModalProps {
   onClose: () => void;
   children: React.ReactNode;
   backdropClose?: boolean;
+  closeButton?: boolean;
 }
 
 export const Modal = ({
@@ -14,6 +15,7 @@ export const Modal = ({
   onClose,
   children,
   backdropClose = true,
+  closeButton = true,
 }: ModalProps) => {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -36,13 +38,15 @@ export const Modal = ({
         role="dialog"
         aria-modal="true"
       >
-        <button
-          className={styles.modalClose}
-          onClick={onClose}
-          aria-label="Close modal"
-        >
-          <X />
-        </button>
+        {closeButton && (
+          <button
+            className={styles.modalClose}
+            onClick={onClose}
+            aria-label="Close modal"
+          >
+            <X />
+          </button>
+        )}
         {children}
       </div>
     </div>

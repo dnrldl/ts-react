@@ -1,0 +1,30 @@
+.modal {
+  display: flex;
+  flex-direction: column;
+
+  .modalItem {
+    padding: 30px;
+    border-bottom: 1px solid #ccc;
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 48px;
+    padding: 4px 8px;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: 600;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+    &:active {
+      background-color: rgba(0, 0, 0, 0.08);
+    }
+  }
+  .report {
+    color: rgb(237, 73, 86);
+  }
+}

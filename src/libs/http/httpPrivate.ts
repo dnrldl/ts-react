@@ -2,20 +2,21 @@ import { createHttpClient } from "./httpFactory";
 import { useAuthStore } from "store/useAuthStore";
 import { ApiResponse } from "types/api";
 import { refresh } from "./httpPublic";
+import axios from "axios";
 
-const axiosInstance = createHttpClient(true);
+const axiosInstance = createHttpClient();
 
 // (1) refresh 폭주 방지(동시 401 한 번만 처리)
 let refreshPromise: Promise<string> | null = null;
-const EXCLUDE_REFRESH = ["/auth/login", "/auth/register", "/auth/refresh"];
 
 async function getFreshToken() {
   if (!refreshPromise) {
     refreshPromise = (async () => {
-      const newAccessToken = await refresh(); // ⬅️ 네가 만든 refresh() 호출
+      const newAccessToken = await refresh();
+      console.log("newAccessToken", newAccessToken);
       localStorage.setItem("accessToken", newAccessToken);
       useAuthStore.getState().setAccessToken(newAccessToken);
-      console.log("Refresh Token Succeeded!");
+      console.log("Refresh Token Successed!");
       return newAccessToken;
     })().finally(() => {
       refreshPromise = null;
@@ -29,12 +30,11 @@ axiosInstance.interceptors.response.use(
   (res) => res,
   async (error) => {
     const originalRequest = error.config ?? {};
-    const url = originalRequest.url ?? "";
+    console.log(originalRequest);
 
-    const shouldTryRefresh =
-      error.response?.status === 401 &&
-      !originalRequest._retry &&
-      !EXCLUDE_REFRESH.some((p) => url.includes(p));
+    const shouldTryRefresh = error.response?.status === 401;
+
+    console.log("shouldTryRefresh", shouldTryRefresh);
 
     if (!shouldTryRefresh) {
       return Promise.reject(error);
@@ -48,15 +48,23 @@ axiosInstance.interceptors.response.use(
         ...(originalRequest.headers ?? {}),
         Authorization: `Bearer ${newAccessToken}`,
       };
-      return axiosInstance(originalRequest); // 실패했던 요청 재시도
+      return axios(originalRequest); // 실패했던 요청 재시도
     } catch (e) {
       console.error("Refresh Token Failed!");
-      useAuthStore.getState().clear();
-      localStorage.removeItem("accessToken");
+      // useAuthStore.getState().clear();
+      // localStorage.removeItem("accessToken");
       return Promise.reject(e);
     }
   }
 );
+
+axiosInstance.interceptors.request.use((config) => {
+  const accessToken = localStorage.getItem("accessToken");
+  if (accessToken) {
+    config.headers.Authorization = `Bearer ${accessToken}`;
+  }
+  return config;
+});
 
 export const privateHttp = {
   get: async <T>(url: string, config = {}) => {

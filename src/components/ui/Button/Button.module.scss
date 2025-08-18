@@ -1,12 +1,15 @@
 @import "styles/variables.scss";
 
 .button {
-  font-size: 17px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
   font-weight: 400;
   letter-spacing: -0.02em;
   border-radius: 100px;
   padding: 0.6em 1.4em;
-  line-height: 1.4;
+
   transition: all 0.2s ease-in-out;
   cursor: pointer;
 }

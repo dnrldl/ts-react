@@ -4,7 +4,7 @@ export interface ApiResponse<T> {
   timestamp: string;
 }
 
-export interface ApiErrorResponse {
+export interface ApiErrorResponse extends Error {
   success: boolean;
   code: string;
   message: string;

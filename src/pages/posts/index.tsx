@@ -1,81 +1,99 @@
+import { getPostPage, getPublicPostPage } from "api/posts";
 import clsx from "clsx";
-import styles from "./PostPage.module.scss";
 import Container from "components/Container";
 import Loading from "components/Loading";
 import PostList from "components/Post/PostList";
 import Button from "components/ui/Button/Button";
-import { useEffect, useState } from "react";
-import { Post } from "types/type";
+import { Option } from "components/ui/Dropdown/Dropdown";
+import { usePosts } from "hooks/post/usePosts";
+import { Plus } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { getPostPage, getPublicPostPage } from "api/posts";
 import { useAuthStore } from "store/useAuthStore";
-import { PageInfo } from "types/common";
-import { postCondition } from "types/post";
+import { PostCondition, SortByOption } from "types/post";
+import { Post } from "types/type";
+import styles from "./PostPage.module.scss";
+
+const sortOptions: Option<SortByOption>[] = [
+  { label: "최신순", value: "createdAt" },
+  { label: "댓글순", value: "commentCount" },
+  { label: "좋아요순", value: "likeCount" },
+];
 
 const PostPage = () => {
   const navigate = useNavigate();
   const isLoggedIn = useAuthStore((s) => s.isLoggedIn);
-  const [posts, setPosts] = useState<Post[]>([]);
-
-  const [pageCond, setPageCond] = useState<postCondition>({
+  const loadMoreRef = useRef<HTMLDivElement | null>(null); // 스크롤 ref
+  const [postCond, setPostCond] = useState<PostCondition>({
+    // 게시글 검색 조건
     page: 0,
     size: 10,
-    sortBy: "",
-    direction: "",
+    sortBy: "createdAt",
+    direction: "desc",
   });
-
-  const [pageInfo, setPageInfo] = useState<PageInfo>({
-    page: 0,
-    size: 10,
-    totalElements: 0,
-    totalPages: 0,
-  });
-
+  const fetchPostPage = isLoggedIn ? getPostPage : getPublicPostPage;
   const {
-    data: postRes,
-    isLoading,
+    data,
+    status, // 'pending' | 'error' | 'success'
     error,
-  } = useQuery({
-    queryKey: ["posts", pageInfo.page],
-    queryFn: () =>
-      isLoggedIn ? getPostPage(pageCond) : getPublicPostPage(pageCond),
-  });
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = usePosts({ isLoggedIn, postCond, fetchPostPage });
 
-  // 응답 값이 바뀌면 게시글, 페이지 정보 세팅
+  // useInfiniteQuery는 결과를 2차원 배열로 반환하기 때문에
+  // flatMap으로 1차원 배열로 변환
+  const flatPosts: Post[] = useMemo(
+    () => data?.pages.flatMap((p) => p.content) ?? [],
+    [data]
+  );
+
   useEffect(() => {
-    if (postRes) {
-      setPosts(postRes.content);
-      setPageInfo({
-        page: postRes.page,
-        size: postRes.size,
-        totalElements: postRes.totalElements,
-        totalPages: postRes.totalPages,
-      });
+    if (!hasNextPage || isFetchingNextPage) return;
+    const loadRef = loadMoreRef.current;
+    if (!loadRef) return;
 
-      setPageCond((prev) => ({
-        ...prev,
-        page: postRes.page,
-        size: postRes.size,
-      }));
-    }
-  }, [postRes]);
+    // 스크롤이 마지막에 닿았을 때 다음 페이지 로드
+    const io = new IntersectionObserver(
+      (entries) => entries[0].isIntersecting && fetchNextPage(),
+      { threshold: 0.1 }
+    );
 
-  const handleClickAdd = () => {
-    navigate("/posts/add");
+    // observe 활성화 (감시)
+    io.observe(loadRef);
+    // 언마운트 시 observe 비활성화
+    return () => io.disconnect();
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  // 정렬조건 핸들러
+  const onChangeSort = (v: SortByOption) => {
+    setPostCond((prev) => ({ ...prev, sortBy: v }));
   };
 
-  if (isLoading) return <Loading />;
-  if (!postRes) return null;
-  if (error) return <div>에러 발생: {error.message}</div>;
+  if (status === "pending") return <Loading />;
+  if (status === "error")
+    return <div>에러 발생: {(error as Error).message}</div>;
 
   return (
-    <Container>
-      <div className={clsx(styles.header, "mb-header")}>
-        <h1>Posts</h1>
-        <Button onClick={handleClickAdd}>New</Button>
-      </div>
-      <PostList posts={posts} />
+    <Container
+      title="Posts"
+      rightSlot={
+        <Button onClick={() => navigate("/posts/add")}>
+          <Plus />
+        </Button>
+      }
+    >
+      <div className={clsx(styles.header)}></div>
+
+      {/* 게시글 리스트 */}
+      <PostList posts={flatPosts} />
+
+      {/* 마지막 페이지 */}
+      {!hasNextPage ? (
+        <div className={styles.end}>Last Page!</div>
+      ) : (
+        <div ref={loadMoreRef} style={{ height: 32 }} />
+      )}
     </Container>
   );
 };
