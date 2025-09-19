@@ -1,0 +1,31 @@
+@import "styles/variables";
+
+.container {
+  display: flex;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+
+  img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+  }
+
+  .content {
+    color: black;
+    white-space: pre-line;
+    margin-bottom: 0.3rem;
+  }
+
+  .nickname {
+    font-size: 1.1rem;
+    color: #0c1014;
+    margin-right: 0.2rem;
+  }
+
+  .time {
+    font-size: 0.8rem;
+    color: $color-secondary;
+  }
+}

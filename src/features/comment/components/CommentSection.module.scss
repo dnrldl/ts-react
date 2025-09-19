@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.list {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  scrollbar-width: none;
+  padding-top: 0.7rem;
+}
+
+.editor {
+  flex: 0 0 auto;
+  border-top: 1px solid #ccc;
+  padding-top: 0.7rem;
+
+  // padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+}

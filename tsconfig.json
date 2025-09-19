@@ -17,10 +17,12 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "moduleDetection": "force",
-    "baseUrl": "src"
-    // "paths": {
-    //   "@/*": ["*"]
-    // }
+    "baseUrl": "src",
+    "jsxImportSource": "@emotion/react",
+    "paths": {
+      "features/*": ["features/*"],
+      "shared/*": ["shared/*"]
+    }
   },
-  "include": ["src"]
+  "include": ["src", "src/styles"]
 }

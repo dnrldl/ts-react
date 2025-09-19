@@ -1,0 +1,84 @@
+// @import "styles/variables";
+
+// .container {
+//   box-sizing: border-box;
+//   display: flex;
+//   width: 1200px;
+//   height: 800px;
+//   // padding: 1.5rem;
+// }
+
+// .leftSection {
+//   flex: 1.5;
+//   width: 100%;
+//   height: 100%;
+// }
+
+// .rightSection {
+//   flex: 1;
+//   padding: 1.2rem;
+//   width: 100%;
+//   height: 100%;
+
+//   .authorSection {
+//     border-bottom: solid 1px #ccc;
+//   }
+
+//   .nickname {
+//     font-size: 1rem;
+//     color: black;
+//     font-weight: 600;
+//     margin-bottom: 10px;
+//   }
+// }
+
+/* PostDetail.module.scss */
+
+.container {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr; /* left / right */
+  width: 100%;
+  height: 100%; /* ← 모달 .body의 높이를 그대로 사용 */
+  min-height: 0; /* ★ 스크롤 자식이 축소 가능하도록 */
+  /* padding은 필요 시 .rightSection 안으로 */
+}
+
+.leftSection,
+.rightSection {
+  min-width: 0;
+  min-height: 0;
+}
+
+.leftSection {
+  /* 이미지 칼럼 전체를 채우되, 내부 컴포넌트가 늘 자유롭게 맞추도록 */
+  display: grid;
+}
+
+.rightSection {
+  padding: 1.2rem;
+  padding-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+
+  .authorSection {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 0.75rem;
+  }
+  .nickname {
+    font-size: 1rem;
+    color: #000;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  /* 댓글 섹션: 상단 정보 고정, 리스트만 스크롤, 에디터 하단 고정 구조를 위해 */
+  > :last-child {
+    /* CommentSection 루트 */
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    height: 100%;
+  }
+}

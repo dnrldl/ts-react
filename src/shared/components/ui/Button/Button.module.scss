@@ -1,0 +1,54 @@
+@import "styles/variables.scss";
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  border-radius: 100px;
+  padding: 0.6em 1.4em;
+
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.primary {
+  background-color: $color-primary;
+  color: white;
+  border: none;
+
+  &:hover {
+    background-color: $color-button-hover;
+  }
+
+  &:active {
+    background-color: $color-button-active;
+  }
+}
+
+.outline {
+  background-color: transparent;
+  color: $color-primary;
+  border: 1px solid $color-primary;
+
+  &:hover {
+    background-color: $color-button-hover;
+    color: white;
+  }
+
+  &:active {
+    background-color: $color-button-active;
+  }
+}
+
+.underline {
+  padding: 0;
+  background-color: inherit;
+  color: $color-primary;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

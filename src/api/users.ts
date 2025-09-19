@@ -1,11 +1,10 @@
-import { privateHttp } from "libs/http/httpPrivate";
-import { publicHttp } from "libs/http/httpPublic";
-import { User } from "types/user";
+import { axiosInstance } from "shared/axios/axiosInstance";
+import { User } from "shared/types/user";
 
 export const getPublicUserProfile = (userId: number) =>
-  publicHttp.get<User>(`/users/${userId}`);
+  axiosInstance.get<User>(`/users/${userId}`);
 
-export const getMyProfile = () => privateHttp.get<User>("/users/me");
+export const getMyProfile = () => axiosInstance.get<User>("/users/me");
 
 export const checkEmailDuplicate = (email: string) =>
-  publicHttp.get(`/users/check/email?email=${email}`);
+  axiosInstance.get(`/users/check/email?email=${email}`);

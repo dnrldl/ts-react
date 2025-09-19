@@ -1,5 +1,5 @@
 import axios from "axios";
-import { privateHttp } from "libs/http/httpPrivate";
+import { axiosInstance } from "shared/axios/axiosInstance";
 
 type Usage = "POST_IMAGE" | "USER_PROFILE_IMAGE";
 
@@ -42,7 +42,7 @@ export const getMultiplePresignedUrls = (
     })),
   };
 
-  return privateHttp.post<PresignResponse[]>("/uploads/presign", request);
+  return axiosInstance.post<PresignResponse[]>("/uploads/presign", request);
 };
 
 export const putImagesOnS3 = async (presignedUrl: string, file: File) =>

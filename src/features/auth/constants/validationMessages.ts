@@ -1,0 +1,25 @@
+export const ValidationMessage = {
+  REQUIRED: {
+    EMAIL: "이메일은 필수 입력값입니다.",
+    PASSWORD: "비밀번호는 필수 입력값입니다.",
+    CONFIRM_PASSWORD: "비밀번호 확인은 필수 입력값입니다.",
+    NICKNAME: "닉네임은 필수 입력값입니다.",
+    FIRST_NAME: "이름은 필수 입력값입니다.",
+    LAST_NAME: "성은 필수 입력값입니다.",
+    PHONE_NUMBER: "전화번호는 필수 입력값입니다.",
+    GENDER: "성별은 필수 입력값입니다.",
+    BIRTH: "생년월일은 필수 입력값입니다.",
+  },
+  FORMAT: {
+    EMAIL: "유효한 이메일 형식이어야 합니다.",
+    EMAIL_PATTERN: "올바른 이메일 주소 형식이 아닙니다.",
+    PASSWORD_SIZE: "비밀번호는 8자 이상, 20자 이하이어야 합니다.",
+    PASSWORD_PATTERN: "비밀번호는 영문, 숫자, 특수문자를 포함해야 합니다.",
+    CONFIRM_PASSWORD_MATCH: "비밀번호가 일치하지 않습니다.",
+    NICKNAME_SIZE: "닉네임은 2자 이상, 20자 이하이어야 합니다.",
+    FIRST_NAME_SIZE: "이름은 최대 10자까지 가능합니다.",
+    LAST_NAME_SIZE: "성은 최대 10자까지 가능합니다.",
+    PHONE_NUMBER_PATTERN: "전화번호는 10자리 또는 11자리 숫자여야 합니다.",
+    BIRTH_PAST: "생년월일은 과거 날짜여야 합니다.",
+  },
+} as const;
