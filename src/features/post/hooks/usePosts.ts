@@ -1,7 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { PostCondition } from "features/post/types";
+import { Post, PostCondition } from "features/post/types";
 import { Page } from "shared/types/common";
-import { Post } from "shared/types/type";
 
 export const usePosts = (
   postCond: PostCondition,

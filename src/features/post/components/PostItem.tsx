@@ -7,10 +7,10 @@ import { Ellipsis, Heart, MessageCircle } from "lucide-react";
 import { useLayoutEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useUserStore } from "shared/stores/userStore";
-import { Post } from "shared/types/type";
 import { getAgoTime } from "utils/dateUtils";
 import styles from "./PostItem.module.scss";
 import { useModal } from "shared/hooks/useModal";
+import { Post } from "features/post/types";
 
 interface PostItemProps {
   post: Post;

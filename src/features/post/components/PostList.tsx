@@ -1,4 +1,4 @@
-import { Post } from "shared/types/type";
+import { Post } from "features/post/types";
 import styles from "./PostList.module.scss";
 import PostItem from "features/post/components/PostItem";
 

@@ -33,7 +33,7 @@ const PostDetailModal = ({ postId, isOpen, onClose }: PostDetailModalProps) => {
   if (!post) return null;
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} closeButton width="maxWidth1440">
+    <Modal isOpen={isOpen} onClose={onClose} width="maxWidth1440">
       <div className={styles.container}>
         {/* 이미지 */}
 
